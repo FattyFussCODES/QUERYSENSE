@@ -1,15 +1,23 @@
 from __future__ import annotations
 
+import sqlite3
+
 import mysql.connector
 
 from config.db_config import DBConfig
 
 
 def create_connection(config: DBConfig, *, connect_to_database: bool = True):
-    """Create a MySQL connection.
+    """Create a DB connection.
 
-    If connect_to_database is False, connects to the server without selecting a DB.
+    Defaults to SQLite for a self-contained demo.
     """
+
+    if config.dialect == "sqlite":
+        # sqlite3 accepts a path; it will create the file if missing.
+        conn = sqlite3.connect(config.sqlite_path)
+        # Return rows as tuples for compatibility with executor/query_executor.py.
+        return conn
 
     params: dict[str, object] = {
         "host": config.host,

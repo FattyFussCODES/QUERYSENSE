@@ -4,7 +4,7 @@ QuerySense is a **schema-aware Natural Language → SQL (Text-to-SQL)** system t
 
 The system interprets user queries, maps them to database schema elements, generates SQL statements automatically, executes them in the database, and returns structured results.
 
-> Database engine: **MySQL**
+> Database engine: **SQLite (default demo)**, **MySQL (optional)**
 
 ## Table of Contents
 
@@ -143,7 +143,8 @@ QuerySense/
 
 ### Database
 
-- MySQL
+- SQLite (default, file-based)
+- MySQL (optional)
 
 ### Other Tools
 
@@ -189,6 +190,29 @@ source venv/bin/activate
 
 ```bash
 pip install -r requirements.txt
+```
+
+## Quick Demo (SQLite)
+
+Initialize the demo database and run a query:
+
+```powershell
+python main.py --init-db
+python main.py "show students with marks above 80"
+python main.py "count students"
+python main.py "top 2 students"
+```
+
+Run the API:
+
+```powershell
+uvicorn api.app:create_app --factory --reload
+```
+
+Then POST to `http://127.0.0.1:8000/query` with JSON:
+
+```json
+{ "query": "students in AI" }
 ```
 
 ### Quickstart (Windows)
