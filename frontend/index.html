@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuerySense</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="logo">Query<span>Sense</span></h1>
+            <p class="subtitle">Chat with your database in plain English.</p>
+        </header>
+
+        <main>
+            <div class="search-box">
+                <input type="text" id="queryInput" placeholder="e.g. show students with marks above 80" aria-label="Enter your natural language query">
+                <button id="searchBtn" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </div>
+
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+            </div>
+
+            <div id="resultsArea" class="hidden">
+                <div class="card sql-card">
+                    <div class="card-header">
+                        <h2>Generated SQL</h2>
+                        <span class="badge">SQLite</span>
+                    </div>
+                    <div class="code-block">
+                        <code id="sqlOutput"></code>
+                    </div>
+                </div>
+
+                <div class="card data-card">
+                    <div class="card-header">
+                        <h2>Results</h2>
+                        <span id="rowCount" class="badge">0 rows</span>
+                    </div>
+                    <div class="table-container">
+                        <table id="resultsTable">
+                            <thead id="tableHead"></thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="errorArea" class="hidden card error-card">
+                <p id="errorMsg"></p>
+            </div>
+        </main>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>

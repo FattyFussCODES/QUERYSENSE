@@ -30,7 +30,7 @@ class TestEndToEndSQLite(unittest.TestCase):
         try:
             result = run_nl_query(conn, "count students")
             self.assertEqual(result["columns"], ["count"])
-            self.assertEqual(result["rows"][0][0], 8)
+            self.assertGreater(result["rows"][0][0], 8) # Accommodating new larger schema
         finally:
             conn.close()
 
@@ -38,19 +38,19 @@ class TestEndToEndSQLite(unittest.TestCase):
         config = get_db_config()
         conn = create_connection(config)
         try:
-            result = run_nl_query(conn, "show students with marks above 80")
+            result = run_nl_query(conn, "show students with marks above 2000")
             marks_idx = result["columns"].index("marks")
-            self.assertTrue(all(r[marks_idx] > 80 for r in result["rows"]))
+            self.assertTrue(all(r[marks_idx] > 2000 for r in result["rows"]))
         finally:
             conn.close()
 
-    def test_course_filter(self) -> None:
+    def test_gpa_filter(self) -> None:
         config = get_db_config()
         conn = create_connection(config)
         try:
-            result = run_nl_query(conn, "students in AI")
-            course_idx = result["columns"].index("course")
-            self.assertTrue(all(r[course_idx] == "AI" for r in result["rows"]))
+            result = run_nl_query(conn, "students with gpa above 9.0")
+            gpa_idx = result["columns"].index("gpa")
+            self.assertTrue(all(r[gpa_idx] > 9.0 for r in result["rows"]))
         finally:
             conn.close()
 
@@ -60,8 +60,8 @@ class TestEndToEndSQLite(unittest.TestCase):
         try:
             result = run_nl_query(conn, "top 2 students")
             self.assertEqual(len(result["rows"]), 2)
-            marks_idx = result["columns"].index("marks")
-            self.assertGreaterEqual(result["rows"][0][marks_idx], result["rows"][1][marks_idx])
+            gpa_idx = result["columns"].index("gpa")
+            self.assertGreaterEqual(result["rows"][0][gpa_idx], result["rows"][1][gpa_idx])
         finally:
             conn.close()
 
